@@ -9,19 +9,21 @@ import javax.swing.JLabel;
  *
  * @author ondrej.mihalyi
  */
-public class MainFrame extends javax.swing.JFrame {
+class MainFrame extends javax.swing.JFrame {
 
-    @Inject Event<AddOneEvent> addOneEvent;
-    
+    @Inject Event<ChangeValueAction> changeValueAction;
+
     /**
      * Creates new form NewJFrame
      */
     public MainFrame() {
         initComponents();
+        messageOutput.setText("");
+        valueDeltaMessageOutput.setText("");
     }
 
     public JLabel getLabel() {
-        return jLabel1;
+        return resultOutput;
     }
 
     /**
@@ -33,87 +35,104 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        resultOutput = new javax.swing.JLabel();
+        addButton = new javax.swing.JButton();
+        valueDeltaInput = new javax.swing.JSpinner();
+        deductButton = new javax.swing.JButton();
+        messageOutput = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        valueDeltaMessageOutput = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("0");
+        resultOutput.setText("0");
 
-        jButton1.setText("Add 1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        addButton.setText("Add");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                addButtonActionPerformed(evt);
             }
         });
+
+        deductButton.setText("Deduct");
+        deductButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deductButtonActionPerformed(evt);
+            }
+        });
+
+        messageOutput.setText("MSG");
+
+        jLabel1.setText("Result:");
+
+        valueDeltaMessageOutput.setText("MSG");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jButton1))
-                .addContainerGap(323, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(resultOutput)
+                        .addGap(18, 18, 18)
+                        .addComponent(messageOutput))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(valueDeltaMessageOutput)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(valueDeltaInput, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(addButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(deductButton)))))
+                .addContainerGap(179, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(23, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(resultOutput)
+                    .addComponent(jLabel1)
+                    .addComponent(messageOutput))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addButton)
+                    .addComponent(valueDeltaInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deductButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addContainerGap(239, Short.MAX_VALUE))
+                .addComponent(valueDeltaMessageOutput)
+                .addGap(221, 221, 221))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        addOneEvent.fire(new AddOneEvent());
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        changeValueAction.fire(ChangeValueAction.plus(getValueDelta()));
+    }//GEN-LAST:event_addButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainFrame().setVisible(true);
-            }
-        });
-    }
+    private void deductButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deductButtonActionPerformed
+        changeValueAction.fire(ChangeValueAction.minus(getValueDelta()));
+    }//GEN-LAST:event_deductButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
+    protected javax.swing.JButton addButton;
+    protected javax.swing.JButton deductButton;
+    protected javax.swing.JLabel jLabel1;
+    protected javax.swing.JLabel messageOutput;
+    protected javax.swing.JLabel resultOutput;
+    protected javax.swing.JSpinner valueDeltaInput;
+    protected javax.swing.JLabel valueDeltaMessageOutput;
     // End of variables declaration//GEN-END:variables
+
+    public int getValueDelta() {
+        return ((Integer) valueDeltaInput.getValue());
+    }
 
 }

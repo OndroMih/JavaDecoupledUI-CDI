@@ -1,26 +1,44 @@
 package eu.mihalyi;
 
-import javax.inject.Inject;
-
 /**
  *
  * @author ondrej.mihalyi
  */
-public class MainWindow {
+public class MainWindow extends MainFrame {
 
-    @Inject
-    MainFrame frame;
-
-    public void show() {
-        frame.setVisible(true);
+    public void display() {
+        this.setVisible(true);
     }
 
     public int getValue() {
-        return Integer.parseInt(frame.getLabel().getText());
+        return Integer.parseInt(getLabel().getText());
     }
 
     public void setValue(int value) {
-        frame.getLabel().setText(String.valueOf(value));
+        getLabel().setText(String.valueOf(value));
     }
 
+    public void displayMessage(MessageType messageType, String message) {
+        messageType.displayMessageOn(this, message);
+    }
+
+    public static enum MessageType {
+        GLOBAL {
+
+            @Override
+            void displayMessageOn(MainWindow window, String message) {
+                window.messageOutput.setText(message);
+            }
+        },
+        VALUE_DELTA {
+
+            @Override
+            void displayMessageOn(MainWindow window, String message) {
+                window.valueDeltaMessageOutput.setText(message);
+            }
+        };
+        
+        abstract void displayMessageOn(MainWindow window, String message);
+    }
+    
 }
